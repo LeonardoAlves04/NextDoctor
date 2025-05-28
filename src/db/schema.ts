@@ -76,7 +76,7 @@ export const clinicsTable = pgTable("clinics", {
 export const usersToClinicsTable = pgTable("users_to_clinics", {
   userId: text("user_id")
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => usersTable.id, { onDelete: "cascade" }),
   clinicId: uuid("clinic_id")
     .notNull()
     .references(() => clinicsTable.id),
