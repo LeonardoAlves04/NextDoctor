@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import ClinicForm from "./components/form";
+import ClinicForm from "./_components/form";
 import z from "zod";
 
 const ClinicFormSchema = z.object({
