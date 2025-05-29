@@ -11,7 +11,7 @@ const DashboardPage = async () => {
     redirect("/authentication");
   }
 
-  if (!session.user.clinicId) {
+  if (!session.user.clinic) {
     redirect("/clinic-form");
   }
 
