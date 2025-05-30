@@ -1,9 +1,22 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { PatternFormat } from "react-number-format";
+import { toast } from "sonner";
 import { z } from "zod";
+
+import { upsertPatient } from "@/actions/upsert-patient";
 import { Button } from "@/components/ui/button";
+import {
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -20,121 +33,173 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAction } from "next-safe-action/hooks";
-import { upsertPatient } from "@/actions/upsert-patient";
-import { PatternFormat } from "react-number-format";
+import { patientsTable } from "@/db/schema";
 
 const formSchema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
-  email: z.string().email("Email inválido").min(1, "Email é obrigatório"),
-  phoneNumber: z.string().min(1, "Telefone é obrigatório"),
-  sex: z.enum(["male", "female"], { message: "Sexo é obrigatório" }),
+  name: z.string().trim().min(1, {
+    message: "Nome é obrigatório.",
+  }),
+  email: z.string().email({
+    message: "Email inválido.",
+  }),
+  phoneNumber: z.string().trim().min(1, {
+    message: "Número de telefone é obrigatório.",
+  }),
+  sex: z.enum(["male", "female"], {
+    required_error: "Sexo é obrigatório.",
+  }),
 });
 
-type FormValues = z.infer<typeof formSchema>;
-
 interface UpsertPatientFormProps {
-  setIsOpen: (isOpen: boolean) => void;
+  isOpen: boolean;
+  patient?: typeof patientsTable.$inferSelect;
+  onSuccess?: () => void;
 }
 
-const UpsertPatientForm = ({ setIsOpen }: UpsertPatientFormProps) => {
-  const form = useForm<FormValues>({
+const UpsertPatientForm = ({
+  patient,
+  onSuccess,
+  isOpen,
+}: UpsertPatientFormProps) => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    shouldUnregister: true,
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      phoneNumber: "",
+      name: patient?.name ?? "",
+      email: patient?.email ?? "",
+      phoneNumber: patient?.phoneNumber ?? "",
+      sex: patient?.sex ?? undefined,
     },
   });
 
-  const { execute, status } = useAction(upsertPatient, {
+  useEffect(() => {
+    if (isOpen) {
+      form.reset(patient);
+    }
+  }, [isOpen, form, patient]);
+
+  const upsertPatientAction = useAction(upsertPatient, {
     onSuccess: () => {
-      setIsOpen(false);
-      form.reset();
+      toast.success("Paciente salvo com sucesso.");
+      onSuccess?.();
     },
-    onError: (error) => {
-      console.error("Error upserting patient:", error);
+    onError: () => {
+      toast.error("Erro ao salvar paciente.");
     },
   });
 
-  const onSubmit = (values: FormValues) => {
-    execute(values);
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    upsertPatientAction.execute({
+      ...values,
+      id: patient?.id,
+    });
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nome</FormLabel>
-              <FormControl>
-                <Input placeholder="Nome do paciente" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Email do paciente" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phoneNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Telefone</FormLabel>
-              <FormControl>
-                <PatternFormat
-                  format="(##) #####-####"
-                  customInput={Input}
-                  placeholder="(00) 00000-0000"
-                  value={field.value}
-                  onValueChange={({ value }) => field.onChange(value)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="sex"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Sexo</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>
+          {patient ? patient.name : "Adicionar paciente"}
+        </DialogTitle>
+        <DialogDescription>
+          {patient
+            ? "Edite as informações desse paciente."
+            : "Adicione um novo paciente."}
+        </DialogDescription>
+      </DialogHeader>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome do paciente</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o sexo" />
-                  </SelectTrigger>
+                  <Input
+                    placeholder="Digite o nome completo do paciente"
+                    {...field}
+                  />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="male">Masculino</SelectItem>
-                  <SelectItem value="female">Feminino</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={status === "executing"}>
-          {status === "executing" ? "Salvando..." : "Salvar"}
-        </Button>
-      </form>
-    </Form>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="exemplo@email.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Número de telefone</FormLabel>
+                <FormControl>
+                  <PatternFormat
+                    format="(##) #####-####"
+                    mask="_"
+                    placeholder="(11) 99999-9999"
+                    value={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value.value);
+                    }}
+                    customInput={Input}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="sex"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sexo</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Selecione o sexo" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="male">Masculino</SelectItem>
+                    <SelectItem value="female">Feminino</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <DialogFooter>
+            <Button
+              type="submit"
+              disabled={upsertPatientAction.isPending}
+              className="w-full"
+            >
+              {upsertPatientAction.isPending ? "Salvando..." : "Salvar"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </Form>
+    </DialogContent>
   );
 };
 
