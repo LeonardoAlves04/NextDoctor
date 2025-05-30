@@ -2,6 +2,7 @@ import { EditIcon, MoreVerticalIcon, TrashIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,6 +27,7 @@ import {
 import { patientsTable } from "@/db/schema";
 
 import UpsertPatientForm from "./upsert-patient-form";
+import { deletePatient } from "@/actions/delete-patients";
 
 interface PatientsTableActionsProps {
   patient: typeof patientsTable.$inferSelect;
@@ -34,19 +36,19 @@ interface PatientsTableActionsProps {
 const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
   const [upsertDialogIsOpen, setUpsertDialogIsOpen] = useState(false);
 
-  // const deletePatientAction = useAction(deletePatient, {
-  //   onSuccess: () => {
-  //     toast.success("Paciente deletado com sucesso.");
-  //   },
-  //   onError: () => {
-  //     toast.error("Erro ao deletar paciente.");
-  //   },
-  // });
+  const deletePatientAction = useAction(deletePatient, {
+    onSuccess: () => {
+      toast.success("Paciente deletado com sucesso.");
+    },
+    onError: () => {
+      toast.error("Erro ao deletar paciente.");
+    },
+  });
 
-  // const handleDeletePatientClick = () => {
-  //   if (!patient) return;
-  //   deletePatientAction.execute({ id: patient.id });
-  // };
+  const handleDeletePatientClick = () => {
+    if (!patient) return;
+    deletePatientAction.execute({ id: patient.id });
+  };
 
   return (
     <>
@@ -83,7 +85,9 @@ const PatientsTableActions = ({ patient }: PatientsTableActionsProps) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction>Deletar</AlertDialogAction>
+                  <AlertDialogAction onClick={handleDeletePatientClick}>
+                    Deletar
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
