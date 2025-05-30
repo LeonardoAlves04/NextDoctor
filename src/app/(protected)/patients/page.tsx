@@ -10,9 +10,9 @@ import {
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import AddDoctorButton from "./_components/add-doctor-button";
+import AddPatientButton from "./_components/add-patient-button";
 
-const DoctorsPage = async () => {
+const PatientsPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -24,18 +24,20 @@ const DoctorsPage = async () => {
     <PageContainer>
       <PageHeader>
         <PageHeaderContent>
-          <PageTitle>Médicos</PageTitle>
-          <PageDescription>Gerencie os médicos da sua clínica</PageDescription>
+          <PageTitle>Pacientes</PageTitle>
+          <PageDescription>
+            Gerencie os pacientes da sua clínica
+          </PageDescription>
         </PageHeaderContent>
         <PageActions>
-          <AddDoctorButton />
+          <AddPatientButton />
         </PageActions>
       </PageHeader>
       <PageContent>
-        <h1>Médicos</h1>
+        <h1>Pacientes</h1>
       </PageContent>
     </PageContainer>
   );
 };
 
-export default DoctorsPage;
+export default PatientsPage;
