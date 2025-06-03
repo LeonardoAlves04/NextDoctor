@@ -104,6 +104,7 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
               <DataTable
                 columns={appointmentsTableColumns}
                 data={todayAppointments}
+                noResultsMessage="Nenhum agendamento feito hoje"
               />
             </CardContent>
           </Card>
