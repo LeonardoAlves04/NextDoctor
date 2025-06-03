@@ -20,6 +20,7 @@ import { DatePicker } from "./_components/date-picker";
 import StatsCards from "./_components/stats-cards";
 import AppointmentsChart from "./_components/appointments-chart";
 import TopDoctors from "./_components/top-doctors";
+import TopSpecialties from "./_components/top-specialties";
 
 interface DashboardPageProps {
   searchParams: Promise<{
@@ -106,7 +107,7 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
               />
             </CardContent>
           </Card>
-          {/* <TopSpecialties topSpecialties={topSpecialties} /> */}
+          <TopSpecialties topSpecialties={topSpecialties} />
         </div>
       </PageContent>
     </PageContainer>
