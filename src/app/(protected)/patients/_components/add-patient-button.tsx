@@ -1,30 +1,27 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
 import UpsertPatientForm from "./upsert-patient-form";
+import { useRouter } from "next/navigation";
 
 const AddPatientButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>Adicionar Paciente</Button>
+        <Button className="cursor-pointer">Adicionar Paciente</Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Adicionar Paciente</DialogTitle>
-        </DialogHeader>
-        <UpsertPatientForm setIsOpen={setIsOpen} />
-      </DialogContent>
+      <UpsertPatientForm
+        isOpen={isOpen}
+        onSuccess={() => {
+          setIsOpen(false);
+          router.refresh();
+        }}
+      />
     </Dialog>
   );
 };

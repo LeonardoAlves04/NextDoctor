@@ -2,6 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -18,11 +19,12 @@ const AddAppointmentButton = ({
   doctors,
 }: AddAppointmentButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="cursor-pointer">
           <Plus />
           Novo agendamento
         </Button>
@@ -31,7 +33,10 @@ const AddAppointmentButton = ({
         isOpen={isOpen}
         patients={patients}
         doctors={doctors}
-        onSuccess={() => setIsOpen(false)}
+        onSuccess={() => {
+          setIsOpen(false);
+          router.refresh();
+        }}
       />
     </Dialog>
   );

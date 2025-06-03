@@ -11,7 +11,7 @@ const AddDoctorButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="cursor-pointer">
           <Plus />
           Adicionar médico
         </Button>

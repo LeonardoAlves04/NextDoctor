@@ -7,6 +7,7 @@ import { z } from "zod";
 import { patientsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 const upsertPatientSchema = z.object({
   id: z.string().optional(),
@@ -30,6 +31,7 @@ export const upsertPatient = actionClient
     }
     const clinicId = session.user.clinic.id;
 
+    let result;
     if (id) {
       const [updatedPatient] = await db
         .update(patientsTable)
@@ -42,7 +44,7 @@ export const upsertPatient = actionClient
         })
         .where(eq(patientsTable.id, id))
         .returning();
-      return { success: updatedPatient };
+      result = updatedPatient;
     } else {
       const [newPatient] = await db
         .insert(patientsTable)
@@ -54,6 +56,11 @@ export const upsertPatient = actionClient
           clinicId,
         })
         .returning();
-      return { success: newPatient };
+      result = newPatient;
     }
+
+    revalidatePath("/patients");
+    revalidatePath("/appointments");
+
+    return { success: result };
   });
