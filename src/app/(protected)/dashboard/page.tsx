@@ -1,7 +1,16 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import SignOutButton from "./_components/sign-out-button";
+import {
+  PageContainer,
+  PageHeader,
+  PageHeaderContent,
+  PageTitle,
+  PageDescription,
+  PageActions,
+  PageContent,
+} from "@/components/ui/page-container";
+import { DatePicker } from "./_components/date-picker";
 
 const DashboardPage = async () => {
   const session = await auth.api.getSession({
@@ -17,10 +26,23 @@ const DashboardPage = async () => {
 
   return (
     <div>
-      <div>Dashboard</div>
-      <h1>{session?.user?.name}</h1>
-      <h1>{session?.user?.email}</h1>
-      <SignOutButton />
+      <PageContainer>
+        <PageHeader>
+          <PageHeaderContent>
+            <PageTitle>Pacientes</PageTitle>
+            <PageDescription>
+              Gerencie os pacientes da sua clínica
+            </PageDescription>
+          </PageHeaderContent>
+          <PageActions>
+            <DatePicker />
+          </PageActions>
+        </PageHeader>
+        <PageContent>
+          <h1>Pacientes</h1>
+        </PageContent>
+        <></>
+      </PageContainer>
     </div>
   );
 };
