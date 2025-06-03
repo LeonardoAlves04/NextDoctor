@@ -59,10 +59,16 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
     deleteDoctorAction.execute({ id: doctor.id });
   };
 
-  const doctorInitials = doctor.name
-    .split(" ")
-    .map((name) => name[0])
-    .join("");
+  const nameParts = doctor.name.trim().split(" ");
+  let doctorInitials = "";
+
+  if (nameParts.length > 0 && nameParts[0]) {
+    doctorInitials = nameParts[0][0].toUpperCase();
+    if (nameParts.length > 1 && nameParts[nameParts.length - 1]) {
+      doctorInitials += nameParts[nameParts.length - 1][0].toUpperCase();
+    }
+  }
+
   const availability = getAvailability(doctor);
 
   return (
