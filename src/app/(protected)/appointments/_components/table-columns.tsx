@@ -37,6 +37,11 @@ export const appointmentsTableColumns: ColumnDef<AppointmentWithRelations>[] = [
     },
   },
   {
+    id: "specialty",
+    accessorKey: "doctor.specialty",
+    header: "Especialidade",
+  },
+  {
     id: "date",
     accessorKey: "date",
     header: "Data e Hora",
@@ -46,11 +51,6 @@ export const appointmentsTableColumns: ColumnDef<AppointmentWithRelations>[] = [
         locale: ptBR,
       });
     },
-  },
-  {
-    id: "specialty",
-    accessorKey: "doctor.specialty",
-    header: "Especialidade",
   },
   {
     id: "price",
