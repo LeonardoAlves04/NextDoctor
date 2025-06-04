@@ -1,21 +1,27 @@
-import { Button } from "@/components/ui/button";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import { auth } from "@/lib/auth";
+
 import ClinicForm from "./_components/form";
-import z from "zod";
 
-const ClinicFormSchema = z.object({
-  name: z.string().trim().min(1, { message: "Nome é obrigatório" }),
-});
-
-const ClinicFormPage = () => {
+const ClinicFormPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session) {
+    redirect("/login");
+  }
+  if (!session.user.plan) {
+    redirect("/new-subscription");
+  }
   return (
     <div>
       <Dialog open>
@@ -23,7 +29,7 @@ const ClinicFormPage = () => {
           <DialogHeader>
             <DialogTitle>Adicionar clínica</DialogTitle>
             <DialogDescription>
-              Preencha o formulário abaixo para adicionar uma clínica.
+              Adicione uma clínica para continuar.
             </DialogDescription>
           </DialogHeader>
           <ClinicForm />
