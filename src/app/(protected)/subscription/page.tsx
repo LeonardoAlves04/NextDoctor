@@ -10,6 +10,7 @@ import {
   PageTitle,
 } from "@/components/ui/page-container";
 import { auth } from "@/lib/auth";
+
 import { SubscriptionPlan } from "./_components/subscription-plan";
 
 const SubscriptionPage = async () => {
@@ -31,7 +32,11 @@ const SubscriptionPage = async () => {
         </PageHeaderContent>
       </PageHeader>
       <PageContent>
-        <SubscriptionPlan userEmail={session.user.email} />
+        <SubscriptionPlan
+          className="w-[350px]"
+          active={session.user.plan === "essential"}
+          userEmail={session.user.email}
+        />
       </PageContent>
     </PageContainer>
   );
