@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Aplicação de pedido de lanches/refeições
 
-## Getting Started
+<p align="center">
+  <img src="https://img.shields.io/static/v1?label=next&message=framework&color=blue&style=for-the-badge&logo=Next"/>
+  <img src="https://img.shields.io/static/v1?label=vercel&message=deploy&color=blue&style=for-the-badge&logo=vercel"/>
+  <img src="http://img.shields.io/static/v1?label=Tailwind&message=biblioteca&color=red&style=for-the-badge&logo=tailwind"/>
+  <img src="http://img.shields.io/static/v1?label=shadcn&message=biblioteca&color=red&style=for-the-badge&logo=shadcn"/>
+  <img src="http://img.shields.io/static/v1?label=Prisma&message=ORM&color=red&style=for-the-badge&logo=Prisma"/>
+</p>
 
-First, run the development server:
+> Status do Projeto: :heavy_check_mark: Concluído!!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Tópicos 🔹
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+:small_blue_diamond: [Descrição do projeto](#descrição-do-projeto)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+:small_blue_diamond: [Funcionalidades](#funcionalidades)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+:small_blue_diamond: [Deploy da Aplicação](#deploy-da-aplicação-dash)
 
-## Learn More
+:small_blue_diamond: [Casos de Uso](#casos-de-uso-warning)
 
-To learn more about Next.js, take a look at the following resources:
+## Descrição do projeto 📝
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<p align="justify">
+Apresentando seu app de Agendamento em Clínica
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Um sistema online completo para facilitar o gerenciamento de consultas médicas. Através do app você consegue:
 
-## Deploy on Vercel
+🔍 Buscar e Filtrar Serviços
+Utilize a barra de pesquisa para encontrar especialidades, nomes de médicos ou tipos de consulta.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Navegue por seções organizadas por categoria: clínica geral, anestesiologia, cardiologia, entre outras.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+⭐ Favoritos
+Marque seus médicos e clínicas favoritos através do login com Google (via NextAuth).
+
+Acesse-os rapidamente na aba “Favoritos”, sem precisar procurar toda vez.
+
+📅 Agendamento de Consultas
+Visualize as disponibilidades de cada médico com filtros:
+
+Especialidade, data/hora, e valor da consulta.
+
+Escolha o horário desejado e finalize o agendamento com poucos toques.
+
+📋 Históricos e Acompanhamento
+Na aba “Meus Agendamentos”, visualize:
+
+Consultas futuras agendadas,
+
+Consultas passadas,
+
+Status de confirmação.
+
+Detalhes como data, hora, médico, especialidade e valor ficam disponíveis, permitindo fácil acesso e controle.
+</p>
+
+## Funcionalidades 📦
+
+:heavy_check_mark: Login com o Google: Permitimos que os usuários façam login usando suas contas do Google para uma experiência de autenticação simplificada.
+
+:heavy_check_mark: Navegação Facilitada: Os usuários podem facilmente navegar pelo app e acompanhar os pacientes e doutores agendados em qualquer data!
+
+:heavy_check_mark: Gráfico dos atendimentos marcados: fica mais fácil contabilizar e ver os atendimentor por meio de um gráfico disponível na home page que o ajuda a analisar os atendimentos efetuados. 
+
+## Deploy da Aplicação :dash:
+
+Deploy: [[next-food-eight.vercel.app](https://next-doctor-nine.vercel.app/)]
+
+## Linguagens e libs utilizadas :books:
+
+- React: Uma biblioteca JavaScript popular para construir interfaces de usuário interativas.
+
+- Next.js 13: Um framework React que oferece renderização do lado do servidor (SSR), geração estática (SSG), entre muitos outros recursos.
+
+- Next Auth: Biblioteca para autenticação de usuários com OAuth.
+
+- Postgres: Um sistema de gerenciamento de banco de dados relacional.
+
+- Prisma: Um ORM (Object-Relational Mapping) para Node.js e TypeScript.
+
+- Tailwind CSS: Um framework CSS que oferece várias classes para utilização já pré-estilizadas.
+  
+- shadcn/ui: Uma biblioteca de componentes de IU reutilizáveis e estilizáveis.
+
+## Imagens do projeto:
