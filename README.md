@@ -85,3 +85,15 @@ Deploy: [[https://next-doctor-nine.vercel.app/](https://next-doctor-nine.vercel.
 - shadcn/ui: Uma biblioteca de componentes de IU reutilizáveis e estilizáveis.
 
 ## Imagens do projeto:
+
+<img width="1919" height="917" alt="image" src="https://github.com/user-attachments/assets/2a5e612a-1f6e-4d51-933a-40bfcd427049" />
+<img width="1905" height="920" alt="image" src="https://github.com/user-attachments/assets/db0e3e49-0aa2-4812-98bd-c44f584f91f8" />
+<img width="1919" height="920" alt="image" src="https://github.com/user-attachments/assets/e2b5dc28-cde6-4440-9214-280cb825347b" />
+<img width="1919" height="927" alt="image" src="https://github.com/user-attachments/assets/730323cb-c7b8-4b04-ad98-ee74365f5307" />
+<img width="1919" height="921" alt="image" src="https://github.com/user-attachments/assets/7a4845eb-5f08-4776-8406-3a8cd3df3857" />
+<img width="1919" height="920" alt="image" src="https://github.com/user-attachments/assets/4be76d7d-2b51-43b2-97bf-8fde08bd229e" />
+
+
+
+
+
