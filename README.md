@@ -66,7 +66,7 @@ Detalhes como data, hora, médico, especialidade e valor ficam disponíveis, per
 
 ## Deploy da Aplicação :dash:
 
-Deploy: [[https://next-doctor-nine.vercel.app/](https://next-doctor-nine.vercel.app/)]
+Deploy: [https://next-doctor-nine.vercel.app/](https://next-doctor-nine.vercel.app/)
 
 ## Linguagens e libs utilizadas :books:
 
