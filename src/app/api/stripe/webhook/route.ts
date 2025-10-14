@@ -58,27 +58,64 @@ export const POST = async (request: Request) => {
       break;
     }
     case "customer.subscription.deleted": {
+      console.log(
+        "Processing 'customer.subscription.deleted' event:",
+        event.data.object.id,
+      );
       if (!event.data.object.id) {
+        console.error("Subscription ID not found in event data");
         throw new Error("Subscription ID not found");
       }
       const subscription = await stripe.subscriptions.retrieve(
         event.data.object.id,
       );
       if (!subscription) {
+        console.error(
+          "Could not retrieve subscription from Stripe:",
+          event.data.object.id,
+        );
         throw new Error("Subscription not found");
       }
       const userId = subscription.metadata.userId;
       if (!userId) {
-        throw new Error("User ID not found");
+        console.error(
+          "User ID not found in subscription metadata:",
+          subscription.id,
+        );
+        throw new Error("User ID not found in subscription metadata");
       }
-      await db
-        .update(usersTable)
-        .set({
-          stripeSubscriptionId: null,
-          stripeCustomerId: null,
-          plan: null,
-        })
-        .where(eq(usersTable.id, userId));
+      console.log(
+        `Attempting to cancel plan for userId: ${userId}, subscriptionId: ${subscription.id}`,
+      );
+      try {
+        const updateResult = await db
+          .update(usersTable)
+          .set({
+            stripeSubscriptionId: null,
+            stripeCustomerId: null,
+            plan: null,
+          })
+          .where(eq(usersTable.id, userId))
+          .returning({ updatedId: usersTable.id }); // Returning updatedId to check if update occurred
+
+        if (updateResult.length > 0) {
+          console.log(
+            `Successfully updated plan to null for userId: ${userId}. Updated ID: ${updateResult[0].updatedId}`,
+          );
+        } else {
+          console.warn(
+            `No user found with userId: ${userId} to update plan status. SubscriptionId: ${subscription.id}`,
+          );
+        }
+      } catch (error) {
+        console.error(
+          `Error updating database for userId: ${userId}, subscriptionId: ${subscription.id}:`,
+          error,
+        );
+        // Re-throw the error to ensure Stripe retries if it's a transient DB issue
+        throw error;
+      }
+      break;
     }
   }
   return NextResponse.json({
