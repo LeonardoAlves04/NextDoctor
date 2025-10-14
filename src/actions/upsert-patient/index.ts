@@ -1,12 +1,10 @@
 "use server";
 
-import { auth } from "@/lib/auth";
 import { db } from "@/db";
-import { actionClient } from "@/lib/next-safe-action";
+import { protectedWithClinicActionClient } from "@/lib/next-safe-action";
 import { z } from "zod";
 import { patientsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 const upsertPatientSchema = z.object({
@@ -17,19 +15,11 @@ const upsertPatientSchema = z.object({
   sex: z.enum(["male", "female"], { message: "Sexo é obrigatório" }),
 });
 
-export const upsertPatient = actionClient
+export const upsertPatient = protectedWithClinicActionClient
   .schema(upsertPatientSchema)
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput, ctx }) => {
     const { id, name, email, phoneNumber, sex } = parsedInput;
-
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session?.user?.clinic?.id) {
-      throw new Error("Usuário não está associado a nenhuma clínica.");
-    }
-    const clinicId = session.user.clinic.id;
+    const clinicId = ctx.user.clinic.id;
 
     let result;
     if (id) {
