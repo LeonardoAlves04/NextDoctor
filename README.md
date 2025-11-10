@@ -23,37 +23,33 @@
 ## Descrição do projeto 📝
 
 <p align="justify">
-Apresentando seu app de Agendamento em Clínica
-
+  
 Um sistema online completo para facilitar o gerenciamento de consultas médicas. Através do app você consegue:
 
-🔍 Buscar e Filtrar Serviços
-Utilize a barra de pesquisa para encontrar especialidades, nomes de médicos ou tipos de consulta.
+Buscar e Filtrar Serviços:
 
+Utilize a barra de pesquisa para encontrar especialidades, nomes de médicos ou tipos de consulta.
 Navegue por seções organizadas por categoria: clínica geral, anestesiologia, cardiologia, entre outras.
 
-⭐ Favoritos
-Marque seus médicos e clínicas favoritos através do login com Google (via NextAuth).
+Favoritos:
 
+Marque seus médicos e clínicas favoritos através do login com Google (via NextAuth).
 Acesse-os rapidamente na aba “Favoritos”, sem precisar procurar toda vez.
 
-📅 Agendamento de Consultas
+Agendamento de Consultas:
+
 Visualize as disponibilidades de cada médico com filtros:
-
 Especialidade, data/hora, e valor da consulta.
-
 Escolha o horário desejado e finalize o agendamento com poucos toques.
 
-📋 Históricos e Acompanhamento
+Históricos e Acompanhamento:
+
 Na aba “Meus Agendamentos”, visualize:
-
 Consultas futuras agendadas,
-
 Consultas passadas,
-
 Status de confirmação.
-
 Detalhes como data, hora, médico, especialidade e valor ficam disponíveis, permitindo fácil acesso e controle.
+
 </p>
 
 ## Funcionalidades 📦
