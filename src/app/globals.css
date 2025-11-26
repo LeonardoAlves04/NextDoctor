@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@layer utilities {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .flex-betweween {
+    @apply flex items-center justify-between;
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
