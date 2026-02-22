@@ -17,6 +17,7 @@ import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import AddAppointmentButton from "./_components/add-appointment-button";
+import { AppointmentsRequirementsModal } from "./_components/appointments-requirements-modal";
 import { appointmentsTableColumns } from "./_components/table-columns";
 
 const AppointmentsPage = async () => {
@@ -48,6 +49,10 @@ const AppointmentsPage = async () => {
 
   return (
     <PageContainer>
+      <AppointmentsRequirementsModal
+        hasDoctors={doctors.length > 0}
+        hasPatients={patients.length > 0}
+      />
       <PageHeader>
         <PageHeaderContent>
           <PageTitle>Agendamentos</PageTitle>
